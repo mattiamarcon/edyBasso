@@ -36,28 +36,28 @@ const data = [
   {
     title: "Massaggio sportivo",
     src: "/mSportivo.png",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[1]}/>,
+    content: <DescrizioneElementoCarosello foto="/mSportivo.png" descrizione={descrizioni[1]}/>,
   },
   {
     title: "Massaggio Decontretturante",
     src: "/mDecontretturante.png",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[2]}/>,
+    content: <DescrizioneElementoCarosello foto="/mDecontretturante.png" descrizione={descrizioni[2]}/>,
   },
   {
     title: "Massaggio Miofasciale",
     src: "/mMiofasciale.jpeg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[3]}/>,
+    content: <DescrizioneElementoCarosello foto="/mMiofasciale.jpeg" descrizione={descrizioni[3]}/>,
   },
   {
     title: "Kinesio Taping",
     src: "/kTaping.jpg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[4]}/>,
+    content: <DescrizioneElementoCarosello foto="/kTaping.jpg" descrizione={descrizioni[4]}/>,
   },
 
   {
     title: "Lezioni di Personal Tranier",
     src: "/personalTrainer.jpg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[5]}/>,
+    content: <DescrizioneElementoCarosello foto="/personalTrainer.jpg" descrizione={descrizioni[5]}/>,
   },
 ];
 
