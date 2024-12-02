@@ -1,45 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Activity, Users, Dumbbell, Waves, LigatureIcon as Bandage, Snowflake } from 'lucide-react'
 import TypeWriter from "./components/TypeWriter"
 import { ServiziCarosello } from "./components/serviziCarosello"
 
 
 export default function Home() {
-  const services = [
-    {
-      title: "Massaggio Sportivo",
-      description: "Trattamento specifico per atleti e sportivi",
-      icon: Activity,
-    },
-    {
-      title: "Massaggio Decontratturante",
-      description: "Allevia tensioni e contratture muscolari",
-      icon: Users,
-    },
-    {
-      title: "Massaggio Miofasciale",
-      description: "Trattamento dei tessuti connettivi",
-      icon: Waves,
-    },
-    {
-      title: "Kinesio Taping",
-      description: "Supporto e stabilità muscolare",
-      icon: Bandage,
-    },
-    {
-      title: "Personal Training",
-      description: "Allenamenti personalizzati one-to-one",
-      icon: Dumbbell,
-    },
-    {
-      title: "Crioterapia",
-      description: "Terapia del freddo per recupero e benessere",
-      icon: Snowflake,
-    },
-  ]
 
   return (
     <div className="space-y-16 md:space-y-24">

@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import React from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import DescrizioneElementoCarosello from "./descrizioneElementoCarosello";
@@ -32,33 +31,33 @@ const data = [
    {
     title: "Crioterapia",
     src: "/crioterapia.jpeg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" titolo="Crioterapia" descrizione={descrizioni[0]} />,
+    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[0]} />,
   },
   {
     title: "Massaggio sportivo",
     src: "/mSportivo.png",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" titolo="Crioterapia" descrizione={descrizioni[0]}/>,
+    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[1]}/>,
   },
   {
     title: "Massaggio Decontretturante",
     src: "/mDecontretturante.png",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" titolo="Crioterapia" descrizione={descrizioni[0]}/>,
+    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[2]}/>,
   },
   {
     title: "Massaggio Miofasciale",
     src: "/mMiofasciale.jpeg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" titolo="Crioterapia" descrizione={descrizioni[0]}/>,
+    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[3]}/>,
   },
   {
     title: "Kinesio Taping",
     src: "/kTaping.jpg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" titolo="Crioterapia" descrizione={descrizioni[0]}/>,
+    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[4]}/>,
   },
 
   {
     title: "Lezioni di Personal Tranier",
     src: "/personalTrainer.jpg",
-    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" titolo="Crioterapia" descrizione={descrizioni[0]}/>,
+    content: <DescrizioneElementoCarosello foto="/crioterapia.jpeg" descrizione={descrizioni[5]}/>,
   },
 ];
 

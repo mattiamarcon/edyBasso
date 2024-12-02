@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 
 export const useOutsideClick = (
   ref: React.RefObject<HTMLDivElement>,
-  callback: Function
+  callback: (event: MouseEvent | TouchEvent) => void // Tipizza il callback in modo specifico
 ) => {
   useEffect(() => {
-    const listener = (event: any) => {
-      if (!ref.current || ref.current.contains(event.target)) {
+    const listener = (event: MouseEvent | TouchEvent) => { // Usa tipi specifici per l'evento
+      if (!ref.current || ref.current.contains(event.target as Node)) {
         return;
       }
       callback(event);
@@ -21,3 +21,4 @@ export const useOutsideClick = (
     };
   }, [ref, callback]);
 };
+
