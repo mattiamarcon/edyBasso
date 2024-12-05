@@ -68,7 +68,7 @@ export default function ContactPage() {
         </div>
         <div className="h-[600px] overflow-hidden rounded-lg border">
           <iframe
-            src="https://www.google.com/maps/embed?pb=YOUR_GOOGLE_MAPS_EMBED_URL"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d980.6541160331517!2d12.617482128327023!3d45.957102836520804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47796526bbe5427b%3A0xa3ed322e3c077e74!2sBellini%20Bar%20Porcia!5e0!3m2!1sit!2sit!4v1733433589540!5m2!1sit!2sit"
             width="100%"
             height="100%"
             style={{ border: 0 }}

@@ -34,7 +34,7 @@ export default function ProvocativeCTA() {
   }, [controls])
 
   return (
-    <section ref={sectionRef} className="bg-white text-black py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section ref={sectionRef} className="bg-white text-black pb-20 px-4 sm:px-6 lg:px-8 relative ">
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -65,12 +65,6 @@ export default function ProvocativeCTA() {
         animate={{ opacity: isHovered ? 0.2 : 0.1 }}
         transition={{ duration: 0.1 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-400 opacity-75"></div>
-        <img
-          src="/placeholder.svg?height=1080&width=1920"
-          alt="Background"
-          className="w-full h-full object-cover mix-blend-overlay"
-        />
       </motion.div>
     </section>
   )
