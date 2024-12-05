@@ -2,7 +2,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import TypeWriter from "./components/TypeWriter"
-import { ServiziCarosello } from "./components/serviziCarosello"
+import { ServiziIterattivi } from "./components/serviziInterattivi"
+import CtaSection from "./components/ctaSection"
 
 
 export default function Home() {
@@ -38,8 +39,7 @@ export default function Home() {
         </div>
       </section>
 
-      <ServiziCarosello />
-
+      <ServiziIterattivi />
 
       <section className="bg-muted py-16 px-4 md:py-24 md:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
@@ -66,7 +66,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <CtaSection />
     </div>
+
+    
   )
 }
 
