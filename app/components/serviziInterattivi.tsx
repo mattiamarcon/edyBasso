@@ -20,7 +20,7 @@ export function ServiziIterattivi() {
     },
     {
       quote:
-        "Trattamento specifico per alleviare tensioni e contratture muscolari, particolarmente efficace per chi soffre di dolori muscolari cronici.",
+        "Trattamento specifico per alleviare tensioni e contratture muscolari, efficace per chi soffre di dolori muscolari cronici.",
       name: "Massaggio Decontratturante",
       src: "/mDecontretturante.png",
       designation: "Durata: 50 minuti",

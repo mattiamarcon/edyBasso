@@ -38,8 +38,13 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <ServiziIterattivi />
+      <section className="flex flex-col">
+        <h2 className="text-center text-4xl sm:text-5xl md:text-6xl font-extrabold mb-20">
+            SERVIZI
+        </h2>
+        <ServiziIterattivi />
+      </section>
+      
 
       <section className="bg-muted py-16 px-4 md:py-24 md:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
