@@ -18,7 +18,6 @@ export function Header() {
   const router = useRouter()
 
   const navigation = [
-    { name: "Home", href: "/" },
     { name: "Prenota", href: "/prenota" },
     { name: "Contatti", href: "/contatti" },
   ]

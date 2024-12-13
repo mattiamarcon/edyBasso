@@ -26,8 +26,7 @@ export function Footer() {
         <div>
           <h3 className="mb-4 text-lg font-semibold">Orari</h3>
           <div className="space-y-2">
-            <p>Lunedì - Venerdì: 9:00 - 20:00</p>
-            <p>Sabato: 9:00 - 17:00</p>
+            <p>Lunedì - Sabato: Su appuntamento</p>
             <p>Domenica: Chiuso</p>
           </div>
         </div>

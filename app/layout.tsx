@@ -7,8 +7,8 @@ import { Footer } from "./components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Studio di Chinesiologia e Massoterapia",
-  description: "Servizi professionali di chinesiologia, massoterapia e personal training",
+  title: "Edy Basso Studio",
+  description: "Edy Basso studio web site",
 }
 
 export default function RootLayout({
