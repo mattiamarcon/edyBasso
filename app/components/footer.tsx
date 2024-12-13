@@ -9,17 +9,17 @@ export function Footer() {
           <div className="space-y-3">
             <p className="flex items-center gap-2">
               <Phone className="h-4 w-4" />
-              <a href="tel:+390123456789" className="hover:underline">+39 012 345 6789</a>
+              <a href="tel:+393791664060" className="hover:underline">+39 379 1664060</a>
             </p>
             <p className="flex items-center gap-2">
               <Mail className="h-4 w-4" />
-              <a href="mailto:info@studiobenessere.it" className="hover:underline">
-                info@studiobenessere.it
+              <a href="mailto:studioedybasso@gmail.com" className="hover:underline">
+                studioedybasso@gmail.com
               </a>
             </p>
             <p className="flex items-center gap-2">
               <MapPin className="h-4 w-4" />
-              Via Roma 123, Milano
+              Via S. Pellico, 5, Fontanafredda PN
             </p>
           </div>
         </div>
@@ -34,7 +34,7 @@ export function Footer() {
       </div>
       <div className="border-t">
         <div className="container mx-auto max-w-7xl py-6 px-4 text-center text-sm md:px-6 lg:px-8">
-          <p>P.IVA 12345678901</p> 
+          <p>P.IVA 01968600930</p> 
           <p>© {new Date().getFullYear()} Edy Basso Studio. Tutti i diritti riservati.</p>
         </div>
       </div>

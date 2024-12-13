@@ -12,7 +12,7 @@ export default function BookingPage() {
             </p>
             <div className="w-full overflow-hidden rounded-md border">
               <iframe
-                src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID&mode=WEEK"
+                src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Q6M14oyztZaSOglbq9uxXvz0C2QS8qfOxMhZCpe9-fK9iK5Ds9SP_E1PFc5_wtnsuMQBqi1ji? gv=true"
                 className="h-[400px] w-full sm:h-[500px] md:h-[600px] lg:h-[700px]"
                 title="Calendario prenotazioni"
               />
@@ -23,5 +23,6 @@ export default function BookingPage() {
     </div>
   )
 }
-  
+
+ 
   
