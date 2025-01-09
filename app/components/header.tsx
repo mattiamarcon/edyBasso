@@ -45,11 +45,6 @@ export function Header() {
               </Link>
             ))}
           </div>
-          <div>
-            <Button asChild>
-              <Link href="/prenota">Prenota Ora</Link>
-            </Button>
-          </div>
         </nav>
 
         <Sheet open={open} onOpenChange={setOpen}>

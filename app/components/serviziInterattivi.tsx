@@ -6,14 +6,14 @@ export function ServiziIterattivi() {
   const testimonials = [
     {
       quote:
-        "Terapia del freddo per il recupero muscolare e il benessere generale.",
-      name: "Crioterapia",
+        "Un trattamento medico ed estetico, che migliora il funzionamento del sistema circolatorio e del sistema linfatico, incentivando l'eliminazione di sostanze tossiche dal corpo",
+      name: "Pressoterapia",
       src: "/crioterapia.jpeg",
       designation: "Durata: 20 minuti",
     },
     {
       quote:
-        "Applicazione di nastri elastici sulla pelle per supportare i muscoli e le articolazioni mantenendo la libertà di movimento.",
+        "Applicazione di cerotti elastici sulla pelle per supportare i muscoli e le articolazioni mantenendo la libertà di movimento.",
       name: "Kinesio Taping",
       src: "/kTaping.jpg",
       designation: "Durata: 30 minuti",
