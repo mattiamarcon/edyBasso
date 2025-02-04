@@ -5,7 +5,6 @@ import TypeWriter from "./components/TypeWriter"
 import { ServiziIterattivi } from "./components/serviziInterattivi"
 import CtaSection from "./components/ctaSection"
 
-
 export default function Home() {
 
   return (

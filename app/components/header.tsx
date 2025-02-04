@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Menu} from 'lucide-react'
@@ -11,20 +11,48 @@ import {
 
   SheetTrigger,
 } from "@/components/ui/sheet"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { supabaseClient } from '@/utils/supabase/client'
 
 
-export function Header() {
+
+export function Header({isLogged}:{isLogged:boolean}) {
+
+  const supabase= supabaseClient();
+
   const [open, setOpen] = useState(false)
   const router = useRouter()
+  const [logged,setLogged]=useState(isLogged)
+
+  useEffect(()=>{
+    setLogged(isLogged)
+  },[isLogged])
+
+  async function signOut(){
+    const { error } = await supabase.auth.signOut();
+    
+    router.refresh(); 
+}
+
 
   const navigation = [
     { name: "Prenota", href: "/prenota" },
     { name: "Contatti", href: "/contatti" },
   ]
+  
+  const hideNavigation=[
+    {name: "Servizi attivi", href:"/servizi/servizi-attivi"},
+    {name: "Aggiungi servizio", href:"/servizi/aggiungi-servizio"}
+  ]
 
   const handleNavigation = (href: string) => {
     setOpen(false)
-    router.push(href)
+    router.push(href) 
   }
 
   return (
@@ -43,8 +71,19 @@ export function Header() {
               >
                 {item.name}
               </Link>
-            ))}
+            ))}  
+            {logged && 
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-lg font-normal w-fit">Servizi</DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {hideNavigation.map((item=>(
+                      <DropdownMenuItem key={item.name}><Link href={item.href}>{item.name}</Link></DropdownMenuItem>
+                  )))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            } 
           </div>
+          {isLogged ? <button className="text-lg font-normal" onClick={signOut}>Log out</button> : <Link href={"/login"} className="text-lg font-normal">Accedi</Link>}
         </nav>
 
         <Sheet open={open} onOpenChange={setOpen}>
@@ -66,7 +105,19 @@ export function Header() {
                     {item.name}
                   </a>
                 ))}
+            {logged && 
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-xl font-normal w-fit">Servizi</DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {hideNavigation.map((item=>(
+                      <DropdownMenuItem key={item.name}><Link href={item.href}>{item.name}</Link></DropdownMenuItem>
+                  )))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            }    
+            {isLogged ? <button className="text-xl font-normal w-fit" onClick={signOut}>Log out</button> : <Link href={"/login"} className="text-xl font-normal">Accedi</Link>}
           </nav>
+          
         </SheetContent>
       </Sheet>
       </div>
