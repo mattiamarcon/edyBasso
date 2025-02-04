@@ -8,7 +8,7 @@ import { useFormState } from 'react-dom'
 
 
 const statoIniziale:FormState={
-  messaggio: ""
+  message: ""
 }
 
 export default function LoginForm() {

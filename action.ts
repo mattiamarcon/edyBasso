@@ -12,7 +12,7 @@ const dbClient = supabaseClient();
 
 
 export type FormState={
-  messaggio:string,
+  message:string,
   error?: string
 }
 
