@@ -12,12 +12,11 @@ const dbClient = supabaseClient();
 
 
 export type FormState={
-  message:string,
-  error?: string
+  message:string
 }
 
-
-export async function login( stato:FormState, formData: FormData) {
+//stato:FormState,
+export async function login(stato:FormState,formData: FormData) {
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -29,11 +28,12 @@ export async function login( stato:FormState, formData: FormData) {
   const { error } = await dbServer.auth.signInWithPassword(data)
 
   if (error) {
-    return {message:"",error:"Credenziali errate"}
+    return {message:"Credenziali errate"}
   }
 
   revalidatePath('/')
   redirect("/")
+  
 }
 
 

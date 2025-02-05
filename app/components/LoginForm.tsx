@@ -6,14 +6,9 @@ import { FormState, login } from '@/action'
  import { Label } from "@/components/ui/label"
 import { useFormState } from 'react-dom'
 
-
-const statoIniziale:FormState={
-  message: ""
-}
-
 export default function LoginForm() {
 
-  const [state,formState] = useFormState(login,statoIniziale)
+  const [state,formState] = useFormState(login,{message:""})
 
   return (
     <form className="space-y-6" action={formState}>
@@ -28,8 +23,7 @@ export default function LoginForm() {
       <Button className="w-full" type='submit'>
         Accedi
       </Button>
-      <div>{state.message}</div>
-      <div className='text-red-500'>{state.error}</div>
+      <div className='text-red-500'>{state.message}</div>
     </form>
   )
 }
