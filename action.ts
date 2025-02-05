@@ -29,10 +29,8 @@ export async function login(state:FormState,formData:FormData) {
     return {message:"Credenziali errate"}
   }
 
-  return {message:"ok"}
-
-  // revalidatePath('/')
-  // redirect("/")
+  revalidatePath('/')
+  redirect("/")
   
 }
 
