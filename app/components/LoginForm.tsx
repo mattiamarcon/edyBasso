@@ -5,6 +5,8 @@ import { FormState, login } from '@/action'
  import { Input } from "@/components/ui/input"
  import { Label } from "@/components/ui/label"
 import { useFormState } from 'react-dom'
+import { useState } from 'react'
+
 
 export default function LoginForm() {
 
@@ -14,11 +16,11 @@ export default function LoginForm() {
     <form className="space-y-6" action={formState}>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" name='email' placeholder="La tua email" required />
+        <Input id="email" name='email'  placeholder="La tua email" required />
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" name='password' type="password" placeholder="La tua password" required />
+        <Input id="password" name='password' type="password"  placeholder="La tua password" required />
       </div>
       <Button className="w-full" type='submit'>
         Accedi

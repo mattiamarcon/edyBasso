@@ -10,29 +10,29 @@ const dbServer = await supabaseServer();
 const dbClient = supabaseClient();
 
 
-
 export type FormState={
-  message:string
+  message?:string
 }
 
-//stato:FormState,
-export async function login(stato:FormState,formData: FormData) {
+export async function login(state:FormState,formData:FormData) {
+  const supabase = await supabaseServer();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
 
-  const { error } = await dbServer.auth.signInWithPassword(data)
+
+  const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
     return {message:"Credenziali errate"}
   }
 
-  revalidatePath('/')
-  redirect("/")
+  return {message:"ok"}
+
+  // revalidatePath('/')
+  // redirect("/")
   
 }
 
