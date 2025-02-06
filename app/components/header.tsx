@@ -77,13 +77,15 @@ export function Header({isLogged}:{isLogged:boolean}) {
                 <DropdownMenuTrigger className="text-lg font-normal w-fit">Servizi</DropdownMenuTrigger>
                 <DropdownMenuContent>
                   {hideNavigation.map((item=>(
-                      <DropdownMenuItem key={item.name}><Link href={item.href}>{item.name}</Link></DropdownMenuItem>
+                      <DropdownMenuItem key={item.name} className="text-lg font-normal cursor-pointer" onClick={()=>handleNavigation(item.href)}>
+                      {item.name}
+                      </DropdownMenuItem>
                   )))}
                 </DropdownMenuContent>
               </DropdownMenu>
             } 
           </div>
-          {isLogged ? <button className="text-lg font-normal" onClick={signOut}>Log out</button> : <Link href={"/login"} className="text-lg font-normal">Accedi</Link>}
+          {isLogged ? <button className="text-lg font-normal" onClick={()=>{signOut(), setOpen(false)}}>Log out</button> : <Link href={"/login"} className="text-lg font-normal">Accedi</Link>}
         </nav>
 
         <Sheet open={open} onOpenChange={setOpen}>
@@ -93,29 +95,28 @@ export function Header({isLogged}:{isLogged:boolean}) {
         <SheetContent>
           <nav className="flex flex-col space-y-5 pt-10">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className="text-xl font-normal"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleNavigation(item.href)
-                    }}
+                    onClick={()=>setOpen(false)}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
             {logged && 
               <DropdownMenu>
                 <DropdownMenuTrigger className="text-xl font-normal w-fit">Servizi</DropdownMenuTrigger>
                 <DropdownMenuContent>
                   {hideNavigation.map((item=>(
-                      <DropdownMenuItem key={item.name}><Link href={item.href}>{item.name}</Link></DropdownMenuItem>
+                      <DropdownMenuItem key={item.name} className="text-xl font-normal" onClick={()=>handleNavigation(item.href)}>
+                        {item.name}
+                        </DropdownMenuItem>
                   )))}
                 </DropdownMenuContent>
               </DropdownMenu>
             }    
-            {isLogged ? <button className="text-xl font-normal w-fit" onClick={signOut}>Log out</button> : <Link href={"/login"} className="text-xl font-normal">Accedi</Link>}
+            {isLogged ? <button className="text-xl font-normal w-fit" onClick={()=>{signOut(), setOpen(false)}}>Log out</button> : <Link href={"/login"} onClick={()=>setOpen(false)} className="text-xl font-normal">Accedi</Link>}
           </nav>
           
         </SheetContent>

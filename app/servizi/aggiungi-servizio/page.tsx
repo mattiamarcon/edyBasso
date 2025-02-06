@@ -39,7 +39,7 @@ export default function ServiceForm() {
       // Carica l'immagine
       const { data: imageData, error: imageError } = await dbClient.storage
         .from("Immagini")
-        .upload(`${image.name}`, image)
+        .upload(title, image)
 
       if (imageError) {
         throw new Error("Errore nel caricamento dell'immagine")
@@ -104,7 +104,7 @@ export default function ServiceForm() {
         <Label htmlFor="description">Descrizione</Label>
         <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
       </div>
-      <div>
+      <div> 
         <Label htmlFor="duration">Durata</Label>
         <Input id="duration" value={duration} onChange={(e) => setDuration(e.target.value)} required />
       </div>

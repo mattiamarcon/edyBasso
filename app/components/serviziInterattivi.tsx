@@ -4,6 +4,8 @@ import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 
 import { supabaseClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+
 
 type Testimonial = {
   quote: string;
@@ -35,17 +37,14 @@ export function ServiziIterattivi() {
       }
     }
     getServizi();
-  },[dbClient])
+  },[])
 
-
-
-  
   return (
     <>
       {testimonials.length > 0 ? (
         <AnimatedTestimonials testimonials={testimonials} />
       ) : (
-        <div>Nessun servizio attivo al momento</div>
+        <Image src={"loading.svg"} alt="Nessun servizio disponibile" width={150} height={150} className="mx-auto" />
       )}
     </>
   )
