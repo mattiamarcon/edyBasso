@@ -83,12 +83,11 @@ function ModificaServizio({
   
       try {
         // Validazione
-        console.log(image)
         if (!title || !description || !duration || !image) {
           throw new Error("Tutti i campi sono obbligatori")
         }
 
-        // Carica l'immagine
+        //Carica l'immagine
         const { data: removeImageData, error: removeImageError } = await dbClient.storage
           .from("Immagini")
           .remove([oldTitle])
