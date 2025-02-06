@@ -17,7 +17,7 @@ interface servizio{
   descrizione:string
 }
 
-function page({
+function ModificaServizio({
     params,
 }:{
     params:Promise<{serviceID:number}>
@@ -188,4 +188,4 @@ function page({
     )
 }
 
-export default page
+export default ModificaServizio

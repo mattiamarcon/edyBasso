@@ -25,7 +25,7 @@ import {
           <AlertDialogHeader>
             <AlertDialogTitle>Sei sicuro di voler eliminare questo servizio?</AlertDialogTitle>
             <AlertDialogDescription>
-              Stai per eliminare il servizio "{serviceName}". Questa azione non può essere annullata.
+              Stai per eliminare il servizio {serviceName}. Questa azione non può essere annullata.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

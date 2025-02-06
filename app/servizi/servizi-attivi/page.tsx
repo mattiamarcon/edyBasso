@@ -17,7 +17,7 @@ interface servizio{
 }
 import { ServiceCard } from '@/app/components/serviceCard';
 
-function page() {
+function ServiziAttivi() {
 
   const router = useRouter()
   const dbClient = supabaseClient();
@@ -85,5 +85,5 @@ function page() {
   )
 }
 
-export default page
+export default ServiziAttivi
 
