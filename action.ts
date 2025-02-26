@@ -34,6 +34,66 @@ export async function login(state:FormState,formData:FormData) {
   
 }
 
+export async function getBookings() {
+  try {
+    const { data, error } = await dbClient.from("prenotazioni").select("*").order("oraInizio", { ascending: true })
+
+    if (error) {
+      console.error("Errore caricamento prenotazioni, ricarica:", error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error("Errore lettura prenotazioni:", error)
+    return []
+  }
+}
+
+// Create a new booking
+export async function createBooking(bookingData: any) {
+
+  try {
+    const newBooking = {
+      ...bookingData,
+    }
+
+    const { data, error } = await dbClient.from("prenotazioni").insert([newBooking]).select()
+
+    if (error) {
+      console.error("Errore creazioni appuntamento:", error)
+      throw new Error("Errore creazioni appuntamento")
+    }
+
+    return data?.[0] || newBooking
+  } catch (error) {
+    console.error("Errore creazioni appuntamento:", error)
+    throw new Error("Errore creazioni appuntamento")
+  }
+}
+
+// Update booking status
+export async function updateBookingStatus(bookingId: string, stato: string) {
+  try {
+    const { error } = await dbClient
+      .from("prenotazioni")
+      .update({
+        stato,
+        updatedAt: new Date()
+      })
+      .eq("id", bookingId)
+
+    if (error) {
+      console.error("Errore aggiornamento appuntamento:", error)
+      throw new Error("Errore aggiornamento appuntamento")
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.error("Errore aggiornamento appuntamento:", error)
+    throw new Error("Errore aggiornamento appuntamento")
+  }
+}
 
 
 
