@@ -254,6 +254,7 @@ export default function BookingsPage() {
                   center: "title",
                   right: "today",
                 }}
+                longPressDelay={1}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
