@@ -178,6 +178,8 @@ export async function sendEmail(email:string){
       email:"mattiamarcon05@gmail.com"
     },
   });
+
+  console.log("mail inviate");
   
 }
 
