@@ -87,13 +87,18 @@ body {
   color: white !important; /* Testo bianco */
   border: none !important;
   border-radius: 5px !important; /* Angoli arrotondati */
-  padding: 8px 12px !important;
-  margin: 3px !important;
+  margin-right: 5px !important;
 }
 
 .fc .fc-button:hover {
   background-color: #333 !important; /* Grigio scuro al passaggio del mouse */
   cursor: pointer;
+}
+
+@media screen and (max-width:768px){
+  .fc-toolbar-title{
+    font-size:larger !important;
+  }
 }
 
 

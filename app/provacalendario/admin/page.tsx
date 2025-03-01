@@ -20,15 +20,20 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
-import { getBookings, updateBookingStatus } from "@/action"
+import { getBookings, updateBookingStatus, updateBookingTime,eliminaAppuntamento } from "@/action"
 import { ArrowLeft, Calendar, List } from "lucide-react"
 import Link from "next/link"
+import { DeleteConfirmDialog } from "@/app/components/calendario/delete-confirm-dialog"
+
+
+const SLOT_DURATION = 60 // in minutes
 
 export default function AdminPage() {
   const [bookings, setBookings] = useState<any[]>([])
   const [selectedBooking, setSelectedBooking] = useState<any>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [confirmDeleteDialog,setConfirmDeleteDialog]=useState(false);
 
   const fetchBookings = useCallback(async () => {
       try {
@@ -43,11 +48,10 @@ export default function AdminPage() {
             start: booking.oraInizio,
             end: booking.oraFine,
             giorno: booking.giorno,
-            backgroundColor: getEventColor(booking.status),
-            borderColor: getEventColor(booking.status),
-            extendedProps: {
-              status: booking.status,
-            },
+            backgroundColor: getEventColor(booking.stato),
+            borderColor: getEventColor(booking.stato),
+            stato: booking.stato,
+
           })),
         )
       } catch (error) {
@@ -63,11 +67,7 @@ export default function AdminPage() {
 
     const bookingId = clickInfo.event.id
 
-    console.log(bookings,bookingId)
-
     const booking = bookings.find(prenotazione => prenotazione.id == bookingId)
-
-    
 
     if (booking) {
       setSelectedBooking(booking)
@@ -75,22 +75,48 @@ export default function AdminPage() {
     }
   }
 
-  const handleStatusUpdate = async (status: string) => {
+  const handleEventDrop = async (dropInfo: any) => {
+    const { event } = dropInfo
+
+    const start=event.start
+    start.setMinutes(start.getMinutes() + SLOT_DURATION);
+    console.log(event.end)
+    const end=event.end
+    end.setMinutes(end.getMinutes()+SLOT_DURATION)  
+
+    try {
+      await updateBookingTime(event.id, start,start,end)
+      toast({
+        title: "Orario aggiornato",
+        description: "L'orario dell'appuntamento è stato modificato con successo",
+      })
+      await fetchBookings()
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Errore durante l'aggiornamento dell'orario",
+        variant: "destructive",
+      })
+      dropInfo.revert()
+    }
+  }
+
+  const handleStatusUpdate = async (stato: string) => {
     if (!selectedBooking) return
 
     setIsLoading(true)
     try {
-      await updateBookingStatus(selectedBooking.id, status)
+      await updateBookingStatus(selectedBooking.id, stato)
       toast({
-        title: "Status Updated",
-        description: `Booking has been ${status}`,
+        title: "Stato aggiornato",
+        description: `La prenotazione è  ${stato}`,
       })
       setIsDialogOpen(false)
-      fetchBookings()
+      await fetchBookings()
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update booking status",
+        title: "Errore",
+        description: "Errore durante l'aggiornamento dello stato",
         variant: "destructive",
       })
     } finally {
@@ -98,25 +124,25 @@ export default function AdminPage() {
     }
   }
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "approved":
-        return <Badge className="bg-green-500">Approved</Badge>
-      case "rejected":
-        return <Badge className="bg-red-500">Rejected</Badge>
-      case "pending":
+  const getStatusBadge = (stato: string) => {
+    switch (stato) {
+      case "confermata":
+        return <Badge className="bg-green-500">Confermata</Badge>
+      case "rifiutata":
+        return <Badge className="bg-red-500">Rifiutata</Badge>
+      case "in attesa":
       default:
-        return <Badge className="bg-yellow-500">Pending</Badge>
+        return <Badge className="bg-yellow-500">In attesa</Badge>
     }
   }
 
-  const getEventColor = (status: string) => {
-    switch (status) {
-      case "approved":
+  const getEventColor = (stato: string) => {
+    switch (stato) {
+      case "confermata":
         return "#22c55e"
-      case "rejected":
+      case "rifiutata":
         return "#ef4444"
-      case "pending":
+      case "in attesa":
       default:
         return "#eab308"
     }
@@ -150,9 +176,9 @@ export default function AdminPage() {
                   plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                   initialView="timeGridWeek"
                   headerToolbar={{
-                    left: "prev,next today",
+                    left: "prev,next",
                     center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay",
+                    right: "dayGridMonth,timeGridWeek",
                   }}
                   buttonText={{
                     today:"Oggi",
@@ -160,7 +186,10 @@ export default function AdminPage() {
                     week:"Settimana",
                     day:"Giorno"
                   }}
+                  editable={true}
+                  selectable={true}
                   locale={"it"}
+                  longPressDelay={1}
                   events={bookings}
                   eventClick={handleEventClick}
                   height="100%"
@@ -169,6 +198,7 @@ export default function AdminPage() {
                   slotMaxTime="18:00:00"
                   slotDuration="00:30:00"
                   slotLabelInterval="01:00"
+                  eventDrop={handleEventDrop}
                   businessHours={[
                     {
                       daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
@@ -190,8 +220,7 @@ export default function AdminPage() {
         <TabsContent value="list">
           <Card>
             <CardHeader>
-              <CardTitle>Booking List</CardTitle>
-              <CardDescription>View all bookings in list format</CardDescription>
+              <CardTitle>Lista appuntamenti</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-[700px]">
@@ -200,7 +229,7 @@ export default function AdminPage() {
                   plugins={[listPlugin]}
                   initialView="listWeek"
                   headerToolbar={{
-                    left: "prev,next today",
+                    left: "prev,next",
                     center: "title",
                     right: "listDay,listWeek,listMonth",
                   }}
@@ -239,21 +268,17 @@ export default function AdminPage() {
             <>
               <DialogHeader>
                 <DialogTitle>Bacheca prenotazioni</DialogTitle>
-                <DialogDescription>
-                  {new Date(selectedBooking.startTime).toLocaleDateString()} at{" "}
-                  {new Date(selectedBooking.startTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                </DialogDescription>
               </DialogHeader>
 
               <div className="grid gap-4 py-4">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Stato:</span>
-                  {getStatusBadge(selectedBooking.status)}
+                  {getStatusBadge(selectedBooking.stato)}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h4 className="font-medium mb-1">Nome</h4>
+                    <h4 className="font-medium mb-1">Nome: </h4>
                     <p>{selectedBooking.nome}</p>
                   </div>
 
@@ -276,30 +301,33 @@ export default function AdminPage() {
               </div>
 
               <DialogFooter className="flex flex-col sm:flex-row gap-2">
-                {selectedBooking.status === "pending" && (
+                {selectedBooking.stato === "in attesa" && (
                   <>
                     <Button
                       variant="outline"
                       className="bg-red-500 text-white hover:bg-red-600"
-                      onClick={() => handleStatusUpdate("rejected")}
+                      onClick={() => {setConfirmDeleteDialog(true); setIsDialogOpen(false)}}
                       disabled={isLoading}
                     >
-                      Reject
+                      Rifiutata
                     </Button>
                     <Button
                       className="bg-green-500 hover:bg-green-600"
-                      onClick={() => handleStatusUpdate("approved")}
+                      onClick={() => handleStatusUpdate("confermata")}
                       disabled={isLoading}
                     >
-                      Approve
+                      Confermata
                     </Button>
                   </>
                 )}
-                {selectedBooking.status !== "pending" && (
-                  <Button variant="outline" onClick={() => handleStatusUpdate("pending")} disabled={isLoading}>
-                    Reset to Pending
+                  {/* <Button variant="outline" onClick={() => handleStatusUpdate("confermata")} disabled={isLoading}>
+                    Conferma prenotazione
                   </Button>
-                )}
+                  <Button variant="outline" onClick={() => handleStatusUpdate("rifiutata")} disabled={isLoading}>
+                    Elimina prenotazione
+                  </Button> */}
+                  {confirmDeleteDialog && <DeleteConfirmDialog isOpen={confirmDeleteDialog} onClose={()=>setConfirmDeleteDialog(false)}  onConfirm={eliminaAppuntamento} eventId={selectedBooking.id} />}
+
               </DialogFooter>
             </>
           )}

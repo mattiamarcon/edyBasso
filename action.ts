@@ -6,6 +6,14 @@ import { redirect } from 'next/navigation'
 import { supabaseServer } from '@/utils/supabase/server'
 import { supabaseClient } from '@/utils/supabase/client'
 
+import { Novu } from '@novu/api'; 
+import { text } from 'stream/consumers'
+
+const novu = new Novu({ 
+  secretKey: process.env['NOVU_SECRET_KEY']
+});
+
+
 const dbServer = await supabaseServer();
 const dbClient = supabaseClient();
 
@@ -79,7 +87,6 @@ export async function updateBookingStatus(bookingId: string, stato: string) {
       .from("prenotazioni")
       .update({
         stato,
-        updatedAt: new Date()
       })
       .eq("id", bookingId)
 
@@ -94,6 +101,87 @@ export async function updateBookingStatus(bookingId: string, stato: string) {
     throw new Error("Errore aggiornamento appuntamento")
   }
 }
+
+export async function updateBookingTime(bookingId: string,giorno:Date, oraInizio: Date, oraFine: Date) {
+  try {
+
+    const { error } = await dbClient
+      .from("prenotazioni")
+      .update({
+        giorno,
+        oraInizio,
+        oraFine,
+      })
+      .eq("id", bookingId)
+
+    if (error) {
+      console.error("Errore aggiornamento orari:", error)
+      throw new Error("Errore aggiornamento orari")
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.error("Errore aggiornamento orari:", error)
+    throw new Error("Errore aggiornamento orari")
+  }
+}
+
+export async function eliminaAppuntamento(bookingId: string) {
+  try {
+    const { error } = await dbClient
+      .from("prenotazioni")
+      .delete()
+      .eq("id", bookingId)
+
+    if (error) {
+      console.error("Errore eliminazione:", error)
+      throw new Error("Errore Eliminazione")
+    }
+
+    return { success: true }
+  } catch (error:any) {
+    console.error("Errore eliminazione:", error)
+    throw new Error("Errore eliminazione:", error)
+  }
+}
+
+
+
+export async function sendEmail(email:string){
+
+  const iscritti=await novu.subscribers.search({
+    email
+  })
+
+  if(iscritti.result.data.length!==0){
+    novu.trigger({
+      workflowId: 'edy-basso-client',
+      to: {
+        subscriberId: iscritti.result.data[0].subscriberId as string,
+        email
+      },
+    });
+  }else{
+    novu.trigger({
+      workflowId: 'edy-basso-client',
+      to: {
+        subscriberId: email,
+        email,
+      },
+    });
+  }
+
+  novu.trigger({
+    workflowId: 'edy-basso-server',
+    to: {
+      subscriberId: "1",
+      email:"mattiamarcon05@gmail.com"
+    },
+  });
+  
+}
+
+
 
 
 

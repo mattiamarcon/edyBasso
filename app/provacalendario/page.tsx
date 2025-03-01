@@ -12,9 +12,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
-import { createBooking, getBookings } from "@/action"
-import {  Clock, CalendarClock } from "lucide-react"
+import {  createBooking, getBookings } from "@/action"
+import {  Clock, CalendarClock, AlertCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
+
+import { sendEmail } from "@/action"
 
 // Replace the BUSINESS_HOURS constant with this day-specific configuration
 const BUSINESS_HOURS = {
@@ -43,7 +45,12 @@ export default function BookingsPage() {
     telefono: "",
     cognome: "",
   })
+  const [errors, setErrors] = useState<{ nome?: string; cognome?: string;email?: string; telefono?: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+
+
+  const [mail,setMail]= useState("");
 
   // Function to fetch bookings
   const fetchBookings = useCallback(async () => {
@@ -149,6 +156,17 @@ export default function BookingsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    const { valid, errors } = validateForm(formData.nome, formData.cognome, formData.email, formData.telefono)
+
+    if (!valid) {
+      setErrors(errors)
+      return
+    }
+
+    // If validation passes
+    setErrors({})
+
+
     if (!selectedDate) {
       toast({
         title: "Errore",
@@ -178,12 +196,18 @@ export default function BookingsPage() {
 
 
       // Immediately refresh the bookings list to update available slots
-      await fetchBookings()
+      await fetchBookings();
+
+ 
+       await sendEmail(formData.email);
+
 
       toast({
         title: "Prenotazione inviata",
         description: "La tua prenotazione è avvenuta con successo!",
       })
+
+      
 
       // Reset form
       setFormData({
@@ -207,6 +231,61 @@ export default function BookingsPage() {
       setIsSubmitting(false)
     }
   }
+
+  //verifica input
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+  
+  const isValidPhone = (phone: string): boolean => {
+    // This regex allows various phone formats
+    // It accepts formats like: +39 123 456 7890, 123-456-7890, (123) 456-7890, etc.
+    const phoneRegex = /^(\+\d{1,3}\s?)?($$\d{1,4}$$\s?)?[\d\s-]{7,15}$/
+    return phoneRegex.test(phone)
+  }
+
+ const validateForm = (
+     nome: string,
+     cognome:string,
+     email: string,
+     telefono: string,
+   ): { valid: boolean; errors: { nome?: string; cognome?: string;email?: string; telefono?: string } } => {
+     const errors: { nome?: string; cognome?: string;email?: string; telefono?: string } = {}
+     let valid = true
+   
+     // Check if fields are empty
+     if (!nome.trim()) {
+       errors.nome = "Il nome è obbligatorio"
+       valid = false
+     }
+ 
+     if (!cognome.trim()) {
+       errors.cognome = "Il cognome è obbligatorio"
+       valid = false
+     }
+   
+     if (!email.trim()) {
+       errors.email = "L'email è obbligatoria"
+       valid = false
+     } else if (!isValidEmail(email)) {
+       errors.email = "Inserisci un indirizzo email valido"
+       valid = false
+     }
+   
+     if (!telefono.trim()) {
+       errors.telefono = "Il numero di telefono è obbligatorio"
+       valid = false
+     } else if(telefono.length!==10){
+      errors.telefono = "Inserisci un numero di telefono valido"
+       valid = false
+     }else if (!isValidPhone(telefono)) {
+       errors.telefono = "Inserisci un numero di telefono valido"
+       valid = false
+     }
+   
+     return { valid, errors }
+   }
 
   return (
     <div className=" py-8 mx-auto">
@@ -238,7 +317,7 @@ export default function BookingsPage() {
             <CardTitle>Seleziona data e ora</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[550px] ">
+            <div className="h-[600px] ">
               <FullCalendar
                 buttonText={{
                   today:"Oggi",
@@ -338,7 +417,14 @@ export default function BookingsPage() {
                     value={formData.nome}
                     onChange={handleInputChange}
                     required
+                    className={errors.nome ? "border-red-500" : ""}
                   />
+                  {errors.nome && (
+                    <p className="text-sm text-red-500 flex items-center mt-1">
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                      {errors.nome}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -350,7 +436,14 @@ export default function BookingsPage() {
                     value={formData.cognome}
                     onChange={handleInputChange}
                     required
+                    className={errors.cognome ? "border-red-500" : ""}
                   />
+                  {errors.cognome && (
+                    <p className="text-sm text-red-500 flex items-center mt-1">
+                      <AlertCircle className="h-4 w-4 mr-1" />
+                      {errors.cognome}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -363,7 +456,14 @@ export default function BookingsPage() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                  />
+                    className={errors.email ? "border-red-500" : ""}
+                    />
+                    {errors.email && (
+                      <p className="text-sm text-red-500 flex items-center mt-1">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.email}
+                      </p>
+                    )}
                 </div>
 
                 <div className="space-y-2">
@@ -375,7 +475,14 @@ export default function BookingsPage() {
                     value={formData.telefono}
                     onChange={handleInputChange}
                     required
-                  />
+                    className={errors.telefono ? "border-red-500" : ""}
+                    />
+                    {errors.telefono && (
+                      <p className="text-sm text-red-500 flex items-center mt-1">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.telefono}
+                      </p>
+                    )}
                 </div>
 
                 
@@ -390,6 +497,12 @@ export default function BookingsPage() {
         )}
       </div>
       <Toaster />
+
+      <input type="text" name="mail" onChange={(e)=>setMail(e.target.value)} />
+      <button onClick={()=>sendEmail(mail)}>MANDA EMAIL</button>
+
+
+
     </div>
   )
 }
