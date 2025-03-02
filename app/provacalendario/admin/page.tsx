@@ -24,6 +24,8 @@ import { getBookings, updateBookingStatus, updateBookingTime,eliminaAppuntamento
 import { ArrowLeft, Calendar, List } from "lucide-react"
 import Link from "next/link"
 import { DeleteConfirmDialog } from "@/app/components/calendario/delete-confirm-dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 
 
 const SLOT_DURATION = 60 // in minutes
@@ -34,6 +36,10 @@ export default function AdminPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [confirmDeleteDialog,setConfirmDeleteDialog]=useState(false);
+  const [selectedDay, setSelectedDay] = useState<string>()
+  const [selectedStart, setSelectedStart] = useState<string>()
+  const [selectedEnd, setSelectedEnd] = useState<string>()
+
 
   const fetchBookings = useCallback(async () => {
       try {
@@ -63,6 +69,29 @@ export default function AdminPage() {
     fetchBookings()
   }, [fetchBookings])
 
+  useEffect(()=>{
+
+    async function aggiornaOrario(){
+      if(selectedBooking){
+        const start=`${selectedDay}T${selectedStart}:00`;
+        const end=`${selectedDay}T${selectedEnd}:00`;
+  
+        const dateStart = new Date(start);
+        const dateEnd = new Date(end);
+  
+        dateStart.setHours(dateStart.getHours()+1)
+        dateEnd.setHours(dateEnd.getHours()+1)
+  
+        updateBookingTime(selectedBooking.id,dateStart,dateStart,dateEnd);
+  
+        await fetchBookings()
+      }
+    }
+
+    aggiornaOrario();
+    
+  },[selectedEnd,selectedStart])
+
   const handleEventClick = (clickInfo: any) => {
 
     const bookingId = clickInfo.event.id
@@ -71,7 +100,14 @@ export default function AdminPage() {
 
     if (booking) {
       setSelectedBooking(booking)
+      const date= new Date(booking.giorno)
+      const dateStart = new Date(booking.start);
+      const dateEnd = new Date(booking.end);
+      setSelectedDay(date.toISOString().split('T')[0])
+      setSelectedStart(dateStart.getHours().toString().padStart(2, '0')+":"+dateStart.getMinutes().toString().padStart(2, '0'))
+      setSelectedEnd(dateEnd.getHours().toString().padStart(2, '0')+":"+dateEnd.getMinutes().toString().padStart(2, '0'))
       setIsDialogOpen(true)
+      console.log(selectedStart,selectedEnd)
     }
   }
 
@@ -128,8 +164,6 @@ export default function AdminPage() {
     switch (stato) {
       case "confermata":
         return <Badge className="bg-green-500">Confermata</Badge>
-      case "rifiutata":
-        return <Badge className="bg-red-500">Rifiutata</Badge>
       case "in attesa":
       default:
         return <Badge className="bg-yellow-500">In attesa</Badge>
@@ -140,8 +174,6 @@ export default function AdminPage() {
     switch (stato) {
       case "confermata":
         return "#22c55e"
-      case "rifiutata":
-        return "#ef4444"
       case "in attesa":
       default:
         return "#eab308"
@@ -189,7 +221,7 @@ export default function AdminPage() {
                   editable={true}
                   selectable={true}
                   locale={"it"}
-                  longPressDelay={1}
+                  longPressDelay={50}
                   events={bookings}
                   eventClick={handleEventClick}
                   height="100%"
@@ -298,6 +330,32 @@ export default function AdminPage() {
                   <p>{selectedBooking.telefono}</p>
                 </div>
 
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="startTime" className="text-right">
+                    Ora inizio
+                  </Label>
+                  <Input
+                    id="startTime"
+                    type="time"
+                    value={selectedStart}
+                    onChange={(e) => setSelectedStart(e.target.value)}
+                    className="col-span-3"
+                  />
+                </div>
+
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="endTime" className="text-right">
+                    Ora fine
+                  </Label>
+                  <Input
+                    id="endTime"
+                    type="time"
+                    value={selectedEnd}
+                    onChange={(e) => setSelectedEnd(e.target.value)}
+                    className="col-span-3"
+                  />
+                </div>
+
               </div>
 
               <DialogFooter className="flex flex-col sm:flex-row gap-2">
@@ -309,23 +367,17 @@ export default function AdminPage() {
                       onClick={() => {setConfirmDeleteDialog(true); setIsDialogOpen(false)}}
                       disabled={isLoading}
                     >
-                      Rifiutata
+                      Rifiuta
                     </Button>
                     <Button
                       className="bg-green-500 hover:bg-green-600"
                       onClick={() => handleStatusUpdate("confermata")}
                       disabled={isLoading}
                     >
-                      Confermata
+                      Conferma
                     </Button>
                   </>
                 )}
-                  {/* <Button variant="outline" onClick={() => handleStatusUpdate("confermata")} disabled={isLoading}>
-                    Conferma prenotazione
-                  </Button>
-                  <Button variant="outline" onClick={() => handleStatusUpdate("rifiutata")} disabled={isLoading}>
-                    Elimina prenotazione
-                  </Button> */}
                   {confirmDeleteDialog && <DeleteConfirmDialog isOpen={confirmDeleteDialog} onClose={()=>setConfirmDeleteDialog(false)}  onConfirm={eliminaAppuntamento} eventId={selectedBooking.id} />}
 
               </DialogFooter>
@@ -338,4 +390,7 @@ export default function AdminPage() {
     </div>
   )
 }
+
+
+
 

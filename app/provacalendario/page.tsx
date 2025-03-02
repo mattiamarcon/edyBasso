@@ -48,10 +48,6 @@ export default function BookingsPage() {
   const [errors, setErrors] = useState<{ nome?: string; cognome?: string;email?: string; telefono?: string }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-
-
-  const [mail,setMail]= useState("");
-
   // Function to fetch bookings
   const fetchBookings = useCallback(async () => {
     try {
@@ -179,6 +175,7 @@ export default function BookingsPage() {
     setIsSubmitting(true)
 
     try {
+
       // Calculate end time (based on slot duration)
       selectedDate.setMinutes(selectedDate.getMinutes() + SLOT_DURATION)
       const endTime = new Date(selectedDate)
@@ -333,7 +330,7 @@ export default function BookingsPage() {
                   center: "title",
                   right: "today",
                 }}
-                longPressDelay={1}
+                longPressDelay={50}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
@@ -497,13 +494,8 @@ export default function BookingsPage() {
         )}
       </div>
       <Toaster />
-
-      <input type="text" name="mail" onChange={(e)=>setMail(e.target.value)} />
-      <button onClick={()=>sendEmail(mail)}>MANDA EMAIL</button>
-
-
-
     </div>
   )
 }
+
 
