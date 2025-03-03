@@ -102,6 +102,25 @@ export async function updateBookingStatus(bookingId: string, stato: string) {
   }
 }
 
+export async function deleteBooking(bookingId: string) {
+  try {
+    const { error } = await dbClient
+      .from("prenotazioni")
+      .delete()
+      .eq("id", bookingId)
+
+    if (error) {
+      console.error("Errore eliminazione appuntamento:", error)
+      throw new Error("Errore eliminazione appuntamento")
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.error("Errore eliminazione appuntamento:", error)
+    throw new Error("Errore eliminazione appuntamento")
+  }
+}
+
 export async function updateBookingTime(bookingId: string,giorno:Date, oraInizio: Date, oraFine: Date) {
   try {
 
@@ -125,27 +144,6 @@ export async function updateBookingTime(bookingId: string,giorno:Date, oraInizio
     throw new Error("Errore aggiornamento orari")
   }
 }
-
-export async function eliminaAppuntamento(bookingId: string) {
-  try {
-    const { error } = await dbClient
-      .from("prenotazioni")
-      .delete()
-      .eq("id", bookingId)
-
-    if (error) {
-      console.error("Errore eliminazione:", error)
-      throw new Error("Errore Eliminazione")
-    }
-
-    return { success: true }
-  } catch (error:any) {
-    console.error("Errore eliminazione:", error)
-    throw new Error("Errore eliminazione:", error)
-  }
-}
-
-
 
 export async function sendEmail(email:string){
 

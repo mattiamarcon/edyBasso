@@ -74,7 +74,7 @@ export default function ServiceForm() {
       setSelectedImage(null)
 
       // Reindirizza alla pagina dei servizi o mostra un messaggio di successo
-      router.push("/servizi/aggiungi-servizio")
+      router.push("/admin/servizi/aggiungi-servizio")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Si è verificato un errore")
     } finally {

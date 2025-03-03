@@ -51,7 +51,7 @@ function ServiziAttivi() {
   },[revalidateData])
 
   function edit(id:number){
-    router.push(`/servizi/servizi-attivi/${id}`)
+    router.push(`/admin/servizi/servizi-attivi/${id}`)
   }
 
   function elimina(id:number,title:string, imageUrl:string){

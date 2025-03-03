@@ -35,7 +35,12 @@ export function Header({isLogged}:{isLogged:boolean}) {
 
   async function signOut(){
     const { error } = await supabase.auth.signOut();
+
+    if(!error){
+      setLogged(false);
+    }
     
+    router.push("/");
     router.refresh(); 
 }
 
@@ -47,7 +52,7 @@ export function Header({isLogged}:{isLogged:boolean}) {
   
   const hideNavigation=[
     {name: "Servizi attivi", href:"/servizi/servizi-attivi"},
-    {name: "Aggiungi servizio", href:"/servizi/aggiungi-servizio"}
+    {name: "Aggiungi servizio", href:"/servizi/aggiungi-servizio"},
   ]
 
   const handleNavigation = (href: string) => {
@@ -73,6 +78,7 @@ export function Header({isLogged}:{isLogged:boolean}) {
               </Link>
             ))}  
             {logged && 
+            <>
               <DropdownMenu>
                 <DropdownMenuTrigger className="text-lg font-normal w-fit">Servizi</DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -83,6 +89,8 @@ export function Header({isLogged}:{isLogged:boolean}) {
                   )))}
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Link href={"/appuntamenti"} className="text-lg font-normal w-fit">Appuntamenti</Link>
+            </>
             } 
           </div>
           {isLogged ? <button className="text-lg font-normal" onClick={()=>{signOut(), setOpen(false)}}>Log out</button> : <Link href={"/login"} className="text-lg font-normal">Accedi</Link>}
@@ -105,6 +113,7 @@ export function Header({isLogged}:{isLogged:boolean}) {
                   </Link>
                 ))}
             {logged && 
+            <>
               <DropdownMenu>
                 <DropdownMenuTrigger className="text-xl font-normal w-fit">Servizi</DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -115,6 +124,8 @@ export function Header({isLogged}:{isLogged:boolean}) {
                   )))}
                 </DropdownMenuContent>
               </DropdownMenu>
+              <Link href={"/appuntamenti"} className="text-xl font-normal w-fit">Appuntamenti</Link>
+            </>
             }    
             {isLogged ? <button className="text-xl font-normal w-fit" onClick={()=>{signOut(), setOpen(false)}}>Log out</button> : <Link href={"/login"} onClick={()=>setOpen(false)} className="text-xl font-normal">Accedi</Link>}
           </nav>

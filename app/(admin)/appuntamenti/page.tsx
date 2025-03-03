@@ -20,13 +20,15 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
-import { getBookings, updateBookingStatus, updateBookingTime,eliminaAppuntamento } from "@/action"
+import { createBooking, getBookings, sendEmail, updateBookingStatus, updateBookingTime } from "@/action"
 import { ArrowLeft, Calendar, List } from "lucide-react"
 import Link from "next/link"
 import { DeleteConfirmDialog } from "@/app/components/calendario/delete-confirm-dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-
+import { deleteBooking } from "@/action"
+import { useRouter } from "next/navigation"
+import BookingButton from "@/app/components/calendario/create-booking-dialog"
 
 const SLOT_DURATION = 60 // in minutes
 
@@ -39,7 +41,6 @@ export default function AdminPage() {
   const [selectedDay, setSelectedDay] = useState<string>()
   const [selectedStart, setSelectedStart] = useState<string>()
   const [selectedEnd, setSelectedEnd] = useState<string>()
-
 
   const fetchBookings = useCallback(async () => {
       try {
@@ -107,7 +108,6 @@ export default function AdminPage() {
       setSelectedStart(dateStart.getHours().toString().padStart(2, '0')+":"+dateStart.getMinutes().toString().padStart(2, '0'))
       setSelectedEnd(dateEnd.getHours().toString().padStart(2, '0')+":"+dateEnd.getMinutes().toString().padStart(2, '0'))
       setIsDialogOpen(true)
-      console.log(selectedStart,selectedEnd)
     }
   }
 
@@ -136,6 +136,17 @@ export default function AdminPage() {
       dropInfo.revert()
     }
   }
+
+  async function eliminaPrenotazione(){
+    deleteBooking(selectedBooking.id);
+
+    setIsDialogOpen(false);
+
+    await fetchBookings();
+  }
+
+  
+
 
   const handleStatusUpdate = async (stato: string) => {
     if (!selectedBooking) return
@@ -179,6 +190,8 @@ export default function AdminPage() {
         return "#eab308"
     }
   }
+
+    
 
   return (
     <div className=" py-8">
@@ -364,7 +377,7 @@ export default function AdminPage() {
                     <Button
                       variant="outline"
                       className="bg-red-500 text-white hover:bg-red-600"
-                      onClick={() => {setConfirmDeleteDialog(true); setIsDialogOpen(false)}}
+                      onClick={() => {setConfirmDeleteDialog(true)}}
                       disabled={isLoading}
                     >
                       Rifiuta
@@ -378,15 +391,27 @@ export default function AdminPage() {
                     </Button>
                   </>
                 )}
-                  {confirmDeleteDialog && <DeleteConfirmDialog isOpen={confirmDeleteDialog} onClose={()=>setConfirmDeleteDialog(false)}  onConfirm={eliminaAppuntamento} eventId={selectedBooking.id} />}
+                {selectedBooking.stato === "confermata" && (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="bg-red-500 text-white hover:bg-red-600"
+                      onClick={() => {setConfirmDeleteDialog(true)}}
+                      disabled={isLoading}
+                    >
+                      Rifiuta
+                    </Button>
+                  </>
+                )}
+                  {confirmDeleteDialog && <DeleteConfirmDialog isOpen={confirmDeleteDialog} onClose={()=>setConfirmDeleteDialog(false)} onConfirm={eliminaPrenotazione} />}
 
               </DialogFooter>
             </>
           )}
         </DialogContent>
       </Dialog>
-
       <Toaster />
+      <BookingButton fetchBookings={fetchBookings} />
     </div>
   )
 }
