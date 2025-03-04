@@ -196,7 +196,7 @@ export default function BookingsPage() {
       await fetchBookings();
 
  
-       await sendEmail(formData.email);
+       await sendEmail(formData);
 
 
       toast({
@@ -330,7 +330,7 @@ export default function BookingsPage() {
                   center: "title",
                   right: "today",
                 }}
-                longPressDelay={50}
+                longPressDelay={30}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}

@@ -238,6 +238,7 @@ export default function AdminPage() {
                   events={bookings}
                   eventClick={handleEventClick}
                   height="100%"
+                  
                   allDaySlot={false}
                   slotMinTime="08:00:00"
                   slotMaxTime="18:00:00"
@@ -272,11 +273,11 @@ export default function AdminPage() {
                 <FullCalendar
                   droppable={true}
                   plugins={[listPlugin]}
-                  initialView="listWeek"
+                  initialView="listDay"
                   headerToolbar={{
                     left: "prev,next",
                     center: "title",
-                    right: "listDay,listWeek,listMonth",
+                    right: "listDay,listWeek",
                   }}
                   buttonText={{
                     today:"Oggi",

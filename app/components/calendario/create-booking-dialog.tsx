@@ -26,13 +26,6 @@ type BookingFormData = {
   email: string
 }
 
-interface BookingButtonProps {
-  isOpen: boolean
-  onOpen: () => void
-  onClose: () => void
-  onSubmit: (data: BookingFormData) => void
-}
-
 export default function BookingButton({fetchBookings} : {fetchBookings:()=>Promise<void>}) {
 
     const [open,setOpen] = useState(false);

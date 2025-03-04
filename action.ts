@@ -13,6 +13,12 @@ const novu = new Novu({
   secretKey: process.env['NOVU_SECRET_KEY']
 });
 
+interface prenotazioneType{
+    nome: string;
+    email: string;
+    telefono: string;
+    cognome: string;
+}
 
 const dbServer = await supabaseServer();
 const dbClient = supabaseClient();
@@ -145,7 +151,9 @@ export async function updateBookingTime(bookingId: string,giorno:Date, oraInizio
   }
 }
 
-export async function sendEmail(email:string){
+export async function sendEmail(formData:prenotazioneType){
+
+  const {nome,cognome,email,telefono} = formData;
 
   const iscritti=await novu.subscribers.search({
     email
@@ -158,6 +166,10 @@ export async function sendEmail(email:string){
         subscriberId: iscritti.result.data[0].subscriberId as string,
         email
       },
+      payload:{
+        nome,
+        cognome,
+      }
     });
   }else{
     novu.trigger({
@@ -166,6 +178,10 @@ export async function sendEmail(email:string){
         subscriberId: email,
         email,
       },
+      payload:{
+        nome,
+        cognome,
+      }
     });
   }
 
@@ -175,6 +191,10 @@ export async function sendEmail(email:string){
       subscriberId: "1",
       email:"mattiamarcon05@gmail.com"
     },
+    payload:{
+      nome,
+      cognome,
+    }
   });
 
   console.log("mail inviate");
