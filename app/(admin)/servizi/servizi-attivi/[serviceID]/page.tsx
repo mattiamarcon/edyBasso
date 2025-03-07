@@ -120,7 +120,7 @@ function ModificaServizio({
         }
   
         // Reindirizza alla pagina dei servizi o mostra un messaggio di successo
-        router.push("/admin/servizi/servizi-attivi")
+        router.push("/servizi/servizi-attivi")
       } catch (err) {
         setError(err instanceof Error ? err.message : "Si è verificato un errore")
       } finally {

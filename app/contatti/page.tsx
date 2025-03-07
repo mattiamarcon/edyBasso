@@ -30,7 +30,7 @@ export default function ContactPage() {
                     href="mailto:studioedybasso@gmail.com"
                     className="text-muted-foreground hover:underline"
                   >
-                    studioedybasso@gmail.com
+                    contatti@edybassostudio.com
                   </a>
                 </div>
               </div>

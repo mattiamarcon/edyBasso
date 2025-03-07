@@ -48,6 +48,7 @@ export function Header({isLogged}:{isLogged:boolean}) {
   const navigation = [
     { name: "Prenota", href: "/prenota" },
     { name: "Contatti", href: "/contatti" },
+    { name: "Formazione", href: "/formazione" },
   ]
   
   const hideNavigation=[
@@ -89,7 +90,6 @@ export function Header({isLogged}:{isLogged:boolean}) {
                   )))}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link href={"/appuntamenti"} className="text-lg font-normal w-fit">Appuntamenti</Link>
             </>
             } 
           </div>
@@ -124,7 +124,6 @@ export function Header({isLogged}:{isLogged:boolean}) {
                   )))}
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link href={"/appuntamenti"} className="text-xl font-normal w-fit">Appuntamenti</Link>
             </>
             }    
             {isLogged ? <button className="text-xl font-normal w-fit" onClick={()=>{signOut(), setOpen(false)}}>Log out</button> : <Link href={"/login"} onClick={()=>setOpen(false)} className="text-xl font-normal">Accedi</Link>}

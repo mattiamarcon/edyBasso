@@ -13,8 +13,8 @@ export function Footer() {
             </p>
             <p className="flex items-center gap-2">
               <Mail className="h-4 w-4" />
-              <a href="mailto:studioedybasso@gmail.com" className="hover:underline">
-                studioedybasso@gmail.com
+              <a href="mailto:contatti@edybassostudio.com" className="hover:underline">
+                contatti@edybassostudio.com
               </a>
             </p>
             <p className="flex items-center gap-2">

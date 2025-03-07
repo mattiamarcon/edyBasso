@@ -1,6 +1,8 @@
 "use client"
 
+import { Button } from '@/components/ui/button'
 import { motion, useAnimation } from 'framer-motion'
+import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 
 export default function ProvocativeCTA() {
@@ -41,22 +43,14 @@ export default function ProvocativeCTA() {
           animate={controls}
           className="text-center"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">
-            Non rimanere col dubbio 
-          </h2>
-          <p className="text-xl sm:text-2xl md:text-3xl mb-8 text-gray-600">
-            La tua trasformazione inizia con un tocco. Sei pronto a sfidare i tuoi limiti?
-          </p>
-          <motion.a
-            className="bg-black text-white text-lg sm:text-xl font-bold py-4 px-8 rounded-full hover:bg-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            href='/prenota'
-          >
-            Inizia Ora
-          </motion.a>
+          <h2 className="text-2xl font-bold mb-4">Pronto a iniziare il tuo percorso di benessere?</h2>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+          Metto a disposizione la mia esperienza e formazione per aiutarti a raggiungere i tuoi obiettivi di salute e
+          benessere.
+        </p>
+        <Button size="lg">
+          <Link href="/prenota">Prenota ora</Link>
+        </Button>
         </motion.div>
       </div>
       <motion.div
