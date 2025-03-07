@@ -189,15 +189,13 @@ export async function sendEmail(formData:prenotazioneType){
     workflowId: 'edy-basso-server',
     to: {
       subscriberId: "1",
-      email:"mattiamarcon05@gmail.com"
+      email:"studioedybasso@gmail.com"
     },
     payload:{
       nome,
       cognome,
     }
   });
-
-  console.log("mail inviate");
   
 }
 
