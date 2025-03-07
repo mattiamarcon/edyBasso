@@ -29,8 +29,10 @@ export default function Home() {
           </div>
         </div>
 
+        <Image src="/logo.png" width={400} height={400} alt="Edy Basso studio" className="mx-auto my-5" />
+
         {/* Added formatted text with emphasis below both photo and button */}
-        <div className="mt-12 max-w-3xl mx-auto space-y-4 text-xl font-medium text-center">
+        <div className="max-w-3xl mx-auto space-y-4 text-xl font-medium text-center">
           <p>
             Professionista laureato e qualificato.
           </p>

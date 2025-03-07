@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { supabaseClient } from '@/utils/supabase/client'
-
+import Image from "next/image"
 
 
 export function Header({isLogged}:{isLogged:boolean}) {

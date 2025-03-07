@@ -27,7 +27,7 @@ export default function ContactPage() {
                 <div>
                   <p className="font-medium">Email</p>
                   <a
-                    href="mailto:studioedybasso@gmail.com"
+                    href="mailto:contatti@edybassostudio.com"
                     className="text-muted-foreground hover:underline"
                   >
                     contatti@edybassostudio.com
