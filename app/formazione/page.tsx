@@ -48,6 +48,37 @@ export default function TimelinePage() {
           <div className="absolute left-4 sm:left-1/2 h-full w-0.5 bg-slate-300 transform -translate-x-1/2"></div>
 
           <TimelineItem
+            date="2025"
+            title="Formazione in Kinesiologia"
+            place="Discipline Olistiche"
+            description="Corso specifico in Kinesiologia"
+            position="right"
+          />
+
+          <TimelineItem
+            date="2024"
+            title="Massaggio Miofasciale"
+            place="Mani Esperte"
+            description="Corso specifico sul massaggio miofasciale efficace"
+            position="left"
+          />
+
+          <TimelineItem
+            date="2023"
+            title="Massaggio Sportivo"
+            place="Mani Esperte"
+            description="Corso specifico sul massaggio sportivo"
+            position="right"
+          />
+          <TimelineItem
+            date="2023"
+            title="Applicazione Taping"
+            place="Mani Esperte"
+            description="Corso specifico sull'applicazione taping"
+            position="left"
+          />
+
+          <TimelineItem
             date="2021 - Oggi"
             title="Laurea in Scienze e Tecniche delle Attività Motorie Preventive e Adattate"
             place="Università San Raffaele – Milano (MI)"
