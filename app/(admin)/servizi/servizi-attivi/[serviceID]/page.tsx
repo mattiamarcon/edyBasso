@@ -61,7 +61,7 @@ function ModificaServizio({
         setDuration(data[0].durata)
 
         const {data:imageData,error} = await dbClient.storage
-        .from('Immagini')
+        .from('immagini')
         .download(data[0].titolo)
 
         if(imageData){
@@ -89,11 +89,11 @@ function ModificaServizio({
 
         //Carica l'immagine
         const { data: removeImageData, error: removeImageError } = await dbClient.storage
-          .from("Immagini")
+          .from("immagini")
           .remove([oldTitle])
 
         const { data: imageData, error: imageError } = await dbClient.storage
-          .from("Immagini")
+          .from("immagini")
           .upload(title, image)
 
   
@@ -104,7 +104,7 @@ function ModificaServizio({
         // Ottieni l'URL pubblico dell'immagine
         const {
           data: { publicUrl },
-        } = dbClient.storage.from("Immagini").getPublicUrl(imageData.path)
+        } = dbClient.storage.from("immagini").getPublicUrl(imageData.path)
   
         // Inserisci il servizio nel database
         const { error } = await dbClient.from("servizi").update({
