@@ -38,7 +38,7 @@ export default function ServiceForm() {
 
       // Carica l'immagine
       const { data: imageData, error: imageError } = await dbClient.storage
-        .from("Immagini")
+        .from("immagini")
         .upload(title, image)
 
       if (imageError) {
@@ -48,7 +48,7 @@ export default function ServiceForm() {
       // Ottieni l'URL pubblico dell'immagine
       const {
         data: { publicUrl },
-      } = dbClient.storage.from("Immagini").getPublicUrl(imageData.path)
+      } = dbClient.storage.from("immagini").getPublicUrl(imageData.path)
 
       // Inserisci il servizio nel database
       const { error } = await dbClient.from("servizi").insert({
