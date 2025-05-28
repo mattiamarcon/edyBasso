@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { Header } from "./components/header"
 import { Footer } from "./components/footer"
+import { Analytics } from '@vercel/analytics/next';
 
 import { supabaseServer } from "@/utils/supabase/server"
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
         <div className="flex min-h-screen flex-col">
           <Header isLogged={!!data.user} />
           <main className="flex-1 px-4 py-8 md:px-6 lg:px-8 mx-auto w-full">{children}</main>
+          <Analytics />
           <Footer />
         </div>
       </body>
