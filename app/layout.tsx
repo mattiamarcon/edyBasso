@@ -30,6 +30,9 @@ export default async function RootLayout({
 
   return ( 
     <html lang="it">
+      <head>
+        <script defer src="https://cloud.umami.is/script.js" data-website-id={process.env.UMAMI_WEBSITE_ID}></script>
+      </head>
       <body className={inter.className}>
         <div className="flex min-h-screen flex-col">
           <Header isLogged={!!data.user} />
